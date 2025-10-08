@@ -27,6 +27,16 @@ jobs:
                   echo "version=$version" >> "$GITHUB_OUTPUT"
                   printf '{"version": "%s" }' "$version" > public/version.json
 
+            - name: Write config file
+              run: |
+                  echo "module.exports = {
+                  jwtSecret: '${{ secrets.JWT_SECRET }}',
+                  factory: {
+                      url: 'https://pizza-factory.cs329.click',
+                      apiKey: '${{ secrets.FACTORY_API_KEY }}',
+                  },
+                  };" > src/config.js
+
             - name: Build
               run: |
                   npm ci && npm run build
