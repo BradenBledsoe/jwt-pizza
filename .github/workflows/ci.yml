@@ -51,11 +51,13 @@ jobs:
               uses: actions/deploy-pages@v4
 
             - name: Run tests
+              working-directory: ${{ github.workspace }}
               run: |
                   npx playwright install --with-deps chromium
                   npm run test:coverage
 
             - name: Update coverage
+              working-directory: ${{ github.workspace }}
               run: |
                   coverage=$(jq '.total.lines.pct' coverage/coverage-summary.json)
                   color=$(echo "$coverage < 80" | bc | awk '{if ($1) print "red"; else print "green"}')
