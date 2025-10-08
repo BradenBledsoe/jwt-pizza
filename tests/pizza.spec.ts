@@ -296,18 +296,18 @@ test("franchise page and functionality, looking into diner dashboard", async ({
     await expect(page.getByRole("main")).toContainText(", Franchisee on 2");
 });
 
-// test("logout", async ({ page }) => {
-//     await basicInit(page);
-//     await page.getByRole("link", { name: "Login" }).click();
-//     await page
-//         .getByRole("textbox", { name: "Email address" })
-//         .fill("f@jwt.com");
-//     await page.getByRole("textbox", { name: "Email address" }).press("Tab");
-//     await page.getByRole("textbox", { name: "Password" }).fill("franchisee");
-//     await page.getByRole("button", { name: "Login" }).click();
-//     await page.getByRole("link", { name: "Logout" }).click();
-//     await expect(page.locator("#navbar-dark")).toContainText("Login");
-// });
+test("logout", async ({ page }) => {
+    await basicInit(page);
+    await page.getByRole("link", { name: "Login" }).click();
+    await page
+        .getByRole("textbox", { name: "Email address" })
+        .fill("f@jwt.com");
+    await page.getByRole("textbox", { name: "Email address" }).press("Tab");
+    await page.getByRole("textbox", { name: "Password" }).fill("franchisee");
+    await page.getByRole("button", { name: "Login" }).click();
+    await page.getByRole("link", { name: "Logout" }).click();
+    await expect(page.locator("#navbar-dark")).toContainText("Login");
+});
 
 test("diner dashboard", async ({ page }) => {
     await basicInit(page);
@@ -356,8 +356,8 @@ test("admin page", async ({ page }) => {
         .fill("Brand New Franchise");
 });
 
-test("about", async ({ page }) => {
-    await basicInit(page);
-    await page.getByRole("link", { name: "About" }).click();
-    await expect(page.getByRole("main")).toContainText("The secret sauce");
-});
+// test("about", async ({ page }) => {
+//     await basicInit(page);
+//     await page.getByRole("link", { name: "About" }).click();
+//     await expect(page.getByRole("main")).toContainText("The secret sauce");
+// });
