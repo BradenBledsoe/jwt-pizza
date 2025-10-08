@@ -49,10 +49,6 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - run: echo "Hello GitHub Actions"
 
             - name: Run tests
               run: |
