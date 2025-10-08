@@ -1,6 +1,6 @@
 # 🍕 JWT Pizza
 
-![Coverage badge](https://pizza-factory.cs329.click/api/badge/accountId/jwtpizzacoverage?t=1)
+![Coverage badge](https://pizza-factory.cs329.click/api/badge/batfat00/jwtpizzacoverage)
 
 A JSON Web Token, or [JWT](https://jwt.io/introduction), (pronounced JOT) is a digitally signed transfer of information using JSON notation. Because you can validate the digital signature you can buy JWT pizzas with confidence.
 
@@ -12,21 +12,21 @@ You can see a working example of the application at [pizza.cs329.click](https://
 
 1. Fork this repository ![Fork repo](forkRepo.png)
 
-   and then clone the fork from your GitHub account to your development environment.
+    and then clone the fork from your GitHub account to your development environment.
 
-   ```sh
-   git clone https://github.com/youraccountnamehere/jwt-pizza.git
-   ```
+    ```sh
+    git clone https://github.com/youraccountnamehere/jwt-pizza.git
+    ```
 
 2. Change to the repo dir and install the dependencies
-   ```sh
-   cd jwt-pizza
-   npm install
-   ```
+    ```sh
+    cd jwt-pizza
+    npm install
+    ```
 3. Run vite
-   ```sh
-   npm run dev
-   ```
+    ```sh
+    npm run dev
+    ```
 
 ## Development notes
 
@@ -73,11 +73,11 @@ Modify `tailwind.config.js`
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['index.html', './src/**/*.{html,js,jsx}'],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    content: ["index.html", "./src/**/*.{html,js,jsx}"],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
 };
 ```
 
@@ -93,8 +93,8 @@ Modify `index.html` to include tailwind output.css.
 
 ```html
 <head>
-  ...
-  <link href="./main.css" rel="stylesheet" />
+    ...
+    <link href="./main.css" rel="stylesheet" />
 </head>
 ```
 
@@ -111,25 +111,29 @@ npm i preline
 Updated the tailwind config to use preline.
 
 ```js
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: ['index.html', './src/**/*.{html,js,jsx}', './node_modules/preline/preline.js'],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-      },
+    content: [
+        "index.html",
+        "./src/**/*.{html,js,jsx}",
+        "./node_modules/preline/preline.js",
+    ],
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
-  },
-  plugins: [require('preline/plugin')],
+    plugins: [require("preline/plugin")],
 };
 ```
 
 Import preline into app.jsx.
 
 ```js
-import 'preline/preline';
+import "preline/preline";
 ```
 
 Initialize components whenever the page location changes.
