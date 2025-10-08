@@ -356,8 +356,8 @@ test("admin page", async ({ page }) => {
         .fill("Brand New Franchise");
 });
 
-// test("about", async ({ page }) => {
-//     await basicInit(page);
-//     await page.getByRole("link", { name: "About" }).click();
-//     await expect(page.getByRole("main")).toContainText("The secret sauce");
-// });
+test("about", async ({ page }) => {
+    await basicInit(page);
+    await page.getByRole("link", { name: "About" }).click();
+    await expect(page.getByRole("main")).toContainText("The secret sauce");
+});
