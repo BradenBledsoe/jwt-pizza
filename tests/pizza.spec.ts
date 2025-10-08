@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 import { test, expect } from "playwright-test-coverage";
 import { Role, User } from "../src/service/pizzaService";
 
+//Trigger flow
 test("home page", async ({ page }) => {
     await page.goto("/");
 
