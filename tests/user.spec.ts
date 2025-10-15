@@ -32,6 +32,39 @@ async function basicInit(page: Page) {
         },
     };
 
+    await page.route(/\/api\/user(\?.*)?$/, async (route) => {
+        const userRes = {
+            users: [
+                {
+                    id: 3,
+                    name: "pizza diner",
+                    email: "p@jwt.com",
+                    password: "diner",
+                    roles: [{ role: Role.Diner }],
+                },
+                {
+                    id: 1,
+                    name: "Frank owner",
+                    email: "f@jwt.com",
+                    password: "franchisee",
+                    roles: [
+                        { role: Role.Diner },
+                        { objectId: "2", role: Role.Franchisee },
+                    ],
+                },
+                {
+                    id: 5,
+                    name: "Juan",
+                    email: "a@jwt.com",
+                    password: "admin",
+                    roles: [{ role: Role.Admin }],
+                },
+            ],
+        };
+        expect(route.request().method()).toBe("GET");
+        await route.fulfill({ json: userRes });
+    });
+
     // Authorize login or registration for the given user
     await page.route("*/**/api/auth", async (route) => {
         const loginReq = route.request().postDataJSON();
@@ -137,6 +170,29 @@ async function basicInit(page: Page) {
                         user: updatedUser,
                         token: "abcdef",
                     },
+                });
+            } else {
+                await route.fulfill({
+                    status: 404,
+                    json: { error: "User not found" },
+                });
+            }
+        } else if (method === "DELETE") {
+            const userId = route.request().url().split("/").pop();
+            const entry = Object.entries(validUsers).find(
+                ([, user]) => user.id === userId
+            );
+
+            if (entry) {
+                const [email] = entry;
+                delete validUsers[email];
+                // If the deleted user was logged in, log them out
+                if (loggedInUser?.id === userId) {
+                    loggedInUser = undefined;
+                }
+                await route.fulfill({
+                    status: 200,
+                    json: { message: "User deleted successfully" },
                 });
             } else {
                 await route.fulfill({
@@ -287,4 +343,52 @@ test("updateUser testing password change", async ({ page }) => {
     await page.getByRole("link", { name: "pd" }).click();
 
     await expect(page.getByRole("main")).toContainText("p@jwt.com");
+});
+
+test("list users components", async ({ page }) => {
+    await basicInit(page);
+    await page.getByRole("link", { name: "Login" }).click();
+    await page
+        .getByRole("textbox", { name: "Email address" })
+        .fill("a@jwt.com");
+    await page.getByRole("textbox", { name: "Password" }).fill("admin");
+    await page.getByRole("button", { name: "Login" }).click();
+    await page.getByRole("link", { name: "Admin" }).click();
+    await expect(page.getByRole("main")).toContainText("Users");
+    await expect(page.getByRole("main")).toContainText("Name");
+    await expect(page.getByRole("main")).toContainText("Email");
+    await expect(page.getByRole("main")).toContainText("Role");
+    await expect(
+        page.getByRole("textbox", { name: "Filter users" })
+    ).toBeVisible();
+
+    await expect(
+        page.getByRole("textbox", { name: "Filter users" })
+    ).toBeVisible();
+    await expect(page.locator("#userMorePage")).toBeVisible();
+    await page.getByRole("textbox", { name: "Filter users" }).click();
+    await page.getByRole("textbox", { name: "Filter users" }).fill("p@jwt.com");
+    await page.getByRole("button", { name: "Submit" }).first().click();
+    await expect(page.getByRole("main")).toContainText("p@jwt.com");
+});
+
+test("delete user", async ({ page }) => {
+    await basicInit(page);
+    await page.getByRole("link", { name: "Login" }).click();
+    await page
+        .getByRole("textbox", { name: "Email address" })
+        .fill("a@jwt.com");
+    await page.getByRole("textbox", { name: "Password" }).fill("admin");
+    await page.getByRole("button", { name: "Login" }).click();
+    await page.getByRole("link", { name: "Admin" }).click();
+    await expect(page.getByRole("cell", { name: "p@jwt.com" })).toBeVisible();
+    await expect(
+        page
+            .getByRole("row", { name: "pizza diner p@jwt.com diner" })
+            .getByRole("button")
+    ).toBeVisible();
+    await page
+        .getByRole("row", { name: "pizza diner p@jwt.com" })
+        .getByRole("button")
+        .click();
 });

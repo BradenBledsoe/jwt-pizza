@@ -237,7 +237,7 @@ test("purchase with login", async ({ page }) => {
     );
     await page.getByRole("button", { name: "Verify" }).click();
     await expect(
-        page.getByRole("heading", { name: "JWT Pizza - invalid" })
+        page.locator("role=heading", { hasText: "JWT Pizza -" })
     ).toBeVisible();
     await page.getByRole("button", { name: "Close" }).click();
     // Check balance
@@ -333,7 +333,9 @@ test("admin page", async ({ page }) => {
     await page.getByRole("button", { name: "Login" }).click();
     await expect(page.locator("#navbar-dark")).toContainText("Admin");
     await page.getByRole("link", { name: "Admin" }).click();
-    await expect(page.locator("h3")).toContainText("Franchises");
+    await expect(
+        page.getByRole("heading", { name: "Franchises" })
+    ).toBeVisible();
     await page
         .getByRole("row", { name: "Spanish Fork ₿ Close" })
         .getByRole("button")
@@ -349,6 +351,13 @@ test("admin page", async ({ page }) => {
     await expect(
         page.getByRole("button", { name: "Add Franchise" })
     ).toBeVisible();
+    await expect(
+        page.getByRole("textbox", { name: "Filter franchises" })
+    ).toBeVisible();
+    await page.getByRole("textbox", { name: "Filter franchises" }).click();
+    await page
+        .getByRole("textbox", { name: "Filter franchises" })
+        .fill("p@jwt.com");
     await page.getByRole("button", { name: "Add Franchise" }).click();
     await page.getByRole("textbox", { name: "franchise name" }).click();
     await page
