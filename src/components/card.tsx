@@ -5,7 +5,7 @@ interface Props {
     description: string;
     image: string;
 }
-//just to push
+
 export default function Card(props: Props) {
     return (
         <div className="min-w-32 max-w-80">
