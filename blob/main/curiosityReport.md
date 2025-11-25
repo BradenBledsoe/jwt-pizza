@@ -9,3 +9,7 @@ A HAR file is a JSON-formatted log of all network requests and responses between
 - **Payload data:** The content or body of the requests and responses.
 - **Other metrics:** Information like the size of resources and other performance-related data.
 ## Example
+In my example, I was really curious to know what a HAR file would look like that wasn't based off of our pizza jwt website. So, instead I used a website I am building and modifying in my cs340 class instead. This website is known as Tweeter and is very simplified version of what used to be known as Twitter, now X. It is a social media website to show things like followers and followees and different posts that users put out. For this example, I logged a user logging in, making and posting something, and then logging out. Here is the UI to understand what I was messing with:
+![Login Page](../Login_Page_Tweeter.png)
+![Posting Status](../Posting_Status.png)
+From logging in correctly, then posting something as simple as "Hello World", 
